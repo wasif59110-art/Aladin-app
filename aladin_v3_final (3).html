@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Aladin — علادین</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --p:#1A56A4;--pl:#E6F1FB;--pd:#0C3878;
+  --g:#27AE60;--gl:#E8F8F5;
+  --r:#E74C3C;--rl:#FDEDEC;
+  --w:#F5A623;--wl:#FEF9E7;--wd:#854F0B;
+  --pu:#8E44AD;--pul:#F5EEF8;
+  --bg:#F0F4FA;--sur:#FFFFFF;--brd:#BFCFE8;
+  --txt:#1A1A2E;--mut:#6B7A99;--sur2:#F8FAFD;
+  --navh:60px;--abh:54px;--rad:14px;--sh:0 2px 12px rgba(26,86,164,.10);
+}
+html,body{height:100%;width:100%;overflow:hidden}
+body{background:var(--bg);font-family:'Segoe UI',system-ui,sans-serif;display:flex;align-items:stretch;justify-content:center}
+#app{width:100%;max-width:430px;height:100vh;background:var(--sur);display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:500px){body{padding:16px;align-items:flex-start}#app{border-radius:28px;box-shadow:0 12px 48px rgba(0,0,0,.18);height:calc(100vh - 32px)}}
+.appbar{height:var(--abh);min-height:var(--abh);padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--sur);border-bottom:1px solid var(--brd);flex-shrink:0;z-index:10}
+.abl{display:flex;flex-direction:column;gap:1px;min-width:0}
+.abt{font-size:16px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:6px}
+.abs{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aba{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ibtn{width:36px;height:36px;border:none;background:transparent;cursor:pointer;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--mut)}
+.ibtn i{font-size:20px}
+.bbtn{border:none;background:transparent;cursor:pointer;color:var(--p);font-size:13px;font-weight:600;font-family:inherit;padding:6px 10px;border-radius:10px;flex-shrink:0}
+.vi{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px;background:var(--sur2);-webkit-overflow-scrolling:touch}
+.vi::-webkit-scrollbar{width:3px}
+.vi::-webkit-scrollbar-thumb{background:var(--brd);border-radius:2px}
+.bnav{height:var(--navh);min-height:var(--navh);display:flex;border-top:1px solid var(--brd);background:var(--sur);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+.nb{flex:1;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:9px;color:var(--mut);font-family:inherit;padding:6px 2px}
+.nb.active{color:var(--p)}
+.nb i{font-size:20px}
+.nb span{font-weight:500}
+.view{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
+.view.active{display:flex}
+#ls{position:absolute;inset:0;background:var(--sur);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:100}
+.logo{font-size:44px;font-weight:800;color:var(--p);letter-spacing:-2px}
+.spin{width:32px;height:32px;border:3px solid var(--brd);border-top-color:var(--p);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.aw{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 20px;background:var(--sur);overflow-y:auto}
+.alo{font-size:36px;font-weight:800;color:var(--p);text-align:center;letter-spacing:-1px;margin-bottom:4px}
+.atg{font-size:13px;color:var(--mut);text-align:center;margin-bottom:24px}
+.afd{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.alb{font-size:12px;color:var(--mut);font-weight:600}
+.ain{padding:13px 14px;border-radius:10px;border:1.5px solid var(--brd);font-size:15px;background:var(--sur2);color:var(--txt);font-family:inherit;width:100%;direction:ltr;text-align:right}
+.ain:focus{outline:none;border-color:var(--p)}
+.abtn{width:100%;padding:15px;border-radius:10px;border:none;background:var(--p);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px}
+.abtn:disabled{opacity:.5;cursor:not-allowed}
+.alk{text-align:center;font-size:13px;color:var(--p);cursor:pointer;margin-top:14px;font-weight:600}
+.aerr{color:var(--r);font-size:12px;text-align:center;min-height:20px;padding:4px 0;font-weight:500}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sc{background:var(--sur);border-radius:10px;padding:12px 14px;border:1px solid var(--brd);box-shadow:var(--sh)}
+.sl{font-size:10px;color:var(--mut);margin-bottom:5px;font-weight:500}
+.sv{font-size:20px;font-weight:800;color:var(--txt);line-height:1}
+.sv.r{color:var(--r)}.sv.g{color:var(--g)}.sv.b{color:var(--p)}.sv.w{color:var(--wd)}.sv.pu{color:var(--pu)}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.qb{padding:14px 8px;border-radius:var(--rad);border:1.5px solid;background:var(--sur);cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;box-shadow:var(--sh)}
+.qb:active{transform:scale(.97)}
+.qb.cr{color:var(--r);border-color:var(--r);background:var(--rl)}
+.qb.pa{color:var(--g);border-color:var(--g);background:var(--gl)}
+.qb.iv{color:var(--pu);border-color:var(--pu);background:var(--pul)}
+.qb.sa{color:var(--wd);border-color:var(--w);background:var(--wl)}
+.slbl{font-size:11px;color:var(--mut);margin-bottom:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.card{background:var(--sur);border-radius:10px;border:1px solid var(--brd);overflow:hidden;margin-bottom:12px;box-shadow:var(--sh)}
+.li{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--brd);cursor:pointer;min-height:56px}
+.li:last-child{border-bottom:none}
+.li:active{background:var(--sur2)}
+.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.ab{background:var(--pl);color:var(--p)}
+.ag{background:var(--gl);color:var(--g)}
+.aw2{background:var(--wl);color:var(--wd)}
+.ar{background:var(--rl);color:var(--r)}
+.apu{background:var(--pul);color:var(--pu)}
+.im{flex:1;min-width:0}
+.in{font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.is{font-size:11px;color:var(--mut);margin-top:2px}
+.ir{text-align:left;flex-shrink:0}
+.ia{font-size:14px;font-weight:700}
+.ia.r{color:var(--r)}.ia.g{color:var(--g)}.ia.w{color:var(--wd)}
+.bdg{font-size:10px;padding:2px 8px;border-radius:20px;display:inline-block;font-weight:600;margin-top:3px}
+.bdr{background:var(--rl);color:var(--r)}
+.bdg2{background:var(--gl);color:var(--g)}
+.bdw{background:var(--wl);color:var(--wd)}
+.bdi{background:var(--pl);color:var(--p)}
+.sr{display:flex;align-items:center;gap:8px;background:var(--sur);border-radius:10px;padding:10px 14px;border:1px solid var(--brd);margin-bottom:12px}
+.sr input{border:none;background:transparent;font-size:14px;color:var(--txt);flex:1;outline:none;font-family:inherit;direction:rtl}
+.fab{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;border-radius:var(--rad);background:var(--p);color:#fff;font-size:15px;font-weight:700;cursor:pointer;border:none;width:100%;margin-top:12px;font-family:inherit;box-shadow:0 4px 16px rgba(26,86,164,.3)}
+.fab:active{opacity:.85}
+.fab.dg{background:var(--r);box-shadow:0 4px 16px rgba(231,76,60,.25)}
+.fab.sg2{background:var(--g);box-shadow:0 4px 16px rgba(39,174,96,.25)}
+.numpad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
+.nk{padding:15px 0;border-radius:10px;border:1px solid var(--brd);background:var(--sur);font-size:22px;font-weight:700;color:var(--txt);cursor:pointer;text-align:center;font-family:inherit;user-select:none;box-shadow:var(--sh)}
+.nk:active{background:var(--sur2)}
+.adp{font-size:48px;font-weight:800;color:var(--txt);text-align:center;padding:14px 0 6px;letter-spacing:-2px;direction:ltr}
+.aml{font-size:12px;color:var(--mut);text-align:center;margin-bottom:4px}
+.cbtn{width:100%;padding:16px;border-radius:var(--rad);border:none;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;font-family:inherit;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.cbtn:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.cbtn:not(:disabled):active{opacity:.85}
+.cc{background:var(--r);color:#fff}
+.cp2{background:var(--g);color:#fff}
+.ph{background:linear-gradient(135deg,var(--p),var(--pd));border-radius:var(--rad);padding:20px;margin-bottom:14px;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(26,86,164,.3)}
+.pav{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;border:2px solid rgba(255,255,255,.3)}
+.pn{font-size:18px;font-weight:700;color:#fff}
+.pp{font-size:12px;color:rgba(255,255,255,.75)}
+.pb{font-size:26px;font-weight:800;color:#fff;margin-top:4px}
+.pbl{font-size:11px;color:rgba(255,255,255,.7)}
+.ar2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.acbtn{padding:12px 4px;border-radius:10px;border:1px solid var(--brd);background:var(--sur);cursor:pointer;font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:inherit;color:var(--txt);min-height:60px;justify-content:center}
+.acbtn:active{background:var(--sur2)}
+.acbtn i{font-size:20px}
+.rc{background:var(--sur);border-radius:10px;border:1px solid var(--brd);overflow:hidden;margin-bottom:12px;box-shadow:var(--sh)}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--brd)}
+.rr:last-child{border-bottom:none}
+.rk{font-size:13px;color:var(--mut);font-weight:500}
+.rv{font-size:14px;font-weight:700;color:var(--txt)}
+.fc{background:var(--sur);border-radius:var(--rad);border:1px solid var(--brd);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.ff{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fl{font-size:12px;color:var(--mut);font-weight:600}
+.fl span{color:var(--r)}
+.fi{padding:13px 14px;border-radius:10px;border:1.5px solid var(--brd);font-size:14px;background:var(--sur2);color:var(--txt);font-family:inherit;width:100%;direction:rtl}
+.fi:focus{outline:none;border-color:var(--p)}
+.fi[type="number"],.fi[type="tel"],.fi[type="email"],.fi[type="password"]{direction:ltr;text-align:right}
+.fe{color:var(--r);font-size:11px;font-weight:500;min-height:16px}
+.fsb{width:100%;padding:15px;border-radius:10px;border:none;background:var(--p);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(26,86,164,.3)}
+.fsb:disabled{opacity:.45;cursor:not-allowed}
+.fdb{width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--r);background:transparent;color:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px}
+.ib{border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:13px;font-weight:500}
+.ib.wn{background:var(--wl);color:var(--wd)}
+.ib.in2{background:var(--pl);color:var(--p)}
+.ib.sg3{background:var(--gl);color:var(--g)}
+.ib.dg2{background:var(--rl);color:var(--r)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{padding:6px 14px;border-radius:20px;border:1px solid var(--brd);background:var(--sur);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--mut)}
+.chip.active{background:var(--p);color:#fff;border-color:var(--p)}
+.chip:active{transform:scale(.96)}
+.es{text-align:center;padding:48px 20px;color:var(--mut)}
+.es i{font-size:52px;opacity:.25;display:block;margin-bottom:12px}
+.es p{font-size:14px;color:var(--mut);margin-bottom:4px}
+.ovl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.97);z-index:50;gap:14px;border-radius:28px}
+.oi{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.oi.ok{background:var(--gl)} .oi.ok i{font-size:40px;color:var(--g)}
+.oi.er{background:var(--rl)} .oi.er i{font-size:40px;color:var(--r)}
+.ot{font-size:20px;font-weight:700;color:var(--txt);text-align:center;padding:0 24px}
+.os{font-size:14px;color:var(--mut);text-align:center;padding:0 24px}
+.sybdg{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.sybdg.on{background:var(--gl);color:var(--g)}
+.sybdg.off{background:var(--rl);color:var(--r)}
+.syd{width:6px;height:6px;border-radius:50%;background:currentColor}
+.stb{height:4px;background:var(--brd);border-radius:2px;margin-top:4px;overflow:hidden}
+.stf{height:100%;border-radius:2px}
+input::placeholder{color:var(--mut);opacity:.7}
+select.fi{cursor:pointer}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="ls"><div class="logo">علادین</div><div class="spin"></div><div style="font-size:12px;color:var(--mut)">لوڈ ہو رہا ہے...</div></div>
+<!-- AUTH LOGIN -->
+<div class="view" id="view-auth-login">
+<div class="aw">
+<div class="alo">علادین</div><div class="atg">کرانہ اسٹور مینجمنٹ سسٹم</div>
+<div class="afd"><span class="alb">ای میل</span><input class="ain" id="le" type="email" placeholder="aap@email.com" autocomplete="email"></div>
+<div class="afd"><span class="alb">پاسورڈ</span><input class="ain" id="lp" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+<div class="aerr" id="lerr"></div>
+<button class="abtn" id="lbtn" onclick="doLogin()">لاگ ان کریں</button>
+<div class="alk" onclick="navAuth('register')">نیا اکاؤنٹ بنائیں ←</div>
+</div></div>
+<!-- AUTH REGISTER -->
+<div class="view" id="view-auth-register">
+<div class="aw">
+<div class="alo" style="font-size:28px">نیا اکاؤنٹ</div><div class="atg">Aladin پر رجسٹر کریں</div>
+<div class="afd"><span class="alb">دکان کا نام</span><input class="ain" id="rst" type="text" placeholder="احمد جنرل اسٹور"></div>
+<div class="afd"><span class="alb">مالک کا نام</span><input class="ain" id="row" type="text" placeholder="محمد احمد"></div>
+<div class="afd"><span class="alb">ای میل</span><input class="ain" id="rem" type="email" placeholder="aap@email.com"></div>
+<div class="afd"><span class="alb">پاسورڈ (کم از کم 6 حروف)</span><input class="ain" id="rps" type="password" placeholder="••••••••"></div>
+<div class="aerr" id="rerr"></div>
+<button class="abtn" id="rbtn" onclick="doRegister()">اکاؤنٹ بنائیں</button>
+<div class="alk" onclick="navAuth('login')">پہلے سے اکاؤنٹ ہے؟ لاگ ان ←</div>
+</div></div>
+<!-- HOME -->
+<div class="view" id="view-home">
+<div class="appbar">
+<div class="abl"><div class="abt">علادین <span class="sybdg on" id="sybdg"><span class="syd"></span>آن لائن</span></div><div class="abs" id="storelbl">دکان</div></div>
+<div class="aba"><button class="ibtn" onclick="doLogout()" title="خروج"><i class="ti ti-logout"></i></button></div>
+</div>
+<div class="vi">
+<div class="sg">
+<div class="sc"><div class="sl">آج کا اُدھار</div><div class="sv r" id="hcr">₨0</div></div>
+<div class="sc"><div class="sl">آج کی ادائیگی</div><div class="sv g" id="hpa">₨0</div></div>
+<div class="sc"><div class="sl">کل باقی</div><div class="sv b" id="htb">₨0</div></div>
+<div class="sc"><div class="sl">کل گاہک</div><div class="sv" id="hcu">0</div></div>
+<div class="sc"><div class="sl">آج کی فروخت</div><div class="sv w" id="hsa">₨0</div></div>
+<div class="sc"><div class="sl">انوینٹری</div><div class="sv pu" id="hiv">0</div></div>
+</div>
+<div class="qg">
+<button class="qb cr" onclick="openCE()"><i class="ti ti-arrow-up-right"></i> اُدھار دیں</button>
+<button class="qb pa" onclick="openPE()"><i class="ti ti-arrow-down-left"></i> ادائیگی لیں</button>
+<button class="qb iv" onclick="navTo('inventory')"><i class="ti ti-package"></i> انوینٹری</button>
+<button class="qb sa" onclick="navTo('sales')"><i class="ti ti-shopping-cart"></i> فروخت</button>
+</div>
+<div class="slbl">حالیہ لین دین</div>
+<div class="card" id="rtxns"></div>
+</div></div>
+<!-- CUSTOMERS -->
+<div class="view" id="view-customers">
+<div class="appbar"><div class="abl"><div class="abt">گاہک</div></div><div class="aba"><button class="ibtn" onclick="openAC()"><i class="ti ti-plus"></i></button></div></div>
+<div class="vi">
+<div class="sr"><i class="ti ti-search" style="color:var(--mut);font-size:18px"></i><input placeholder="نام یا نمبر تلاش..." oninput="filtC(this.value)" id="csch"></div>
+<div class="card" id="clist"></div>
+<button class="fab" onclick="openAC()"><i class="ti ti-plus"></i> نیا گاہک</button>
+</div></div>
+<!-- INVENTORY -->
+<div class="view" id="view-inventory">
+<div class="appbar"><div class="abl"><div class="abt">انوینٹری</div></div><div class="aba"><button class="ibtn" onclick="openAI()"><i class="ti ti-plus"></i></button></div></div>
+<div class="vi">
+<div class="sr"><i class="ti ti-search" style="color:var(--mut);font-size:18px"></i><input placeholder="آئٹم تلاش..." oninput="filtI(this.value)" id="isch"></div>
+<div class="chips" id="ichips"></div>
+<div class="card" id="ilist"></div>
+<button class="fab" onclick="openAI()"><i class="ti ti-plus"></i> نیا آئٹم</button>
+</div></div>
+<!-- SALES -->
+<div class="view" id="view-sales">
+<div class="appbar"><div class="abl"><div class="abt">فروخت</div></div><div class="aba"><button class="ibtn" onclick="openNS()"><i class="ti ti-plus"></i></button></div></div>
+<div class="vi">
+<div class="chips" id="schips"></div>
+<div class="sg">
+<div class="sc"><div class="sl">آج کی فروخت</div><div class="sv w" id="std">₨0</div></div>
+<div class="sc"><div class="sl">ماہانہ فروخت</div><div class="sv b" id="smo">₨0</div></div>
+<div class="sc"><div class="sl">آج منافع</div><div class="sv g" id="spr">₨0</div></div>
+<div class="sc"><div class="sl">کل فروخت</div><div class="sv" id="sct">0</div></div>
+</div>
+<div class="slbl">فروخت کی فہرست</div>
+<div class="card" id="slist"></div>
+<button class="fab" onclick="openNS()"><i class="ti ti-plus"></i> نئی فروخت</button>
+</div></div>
+<!-- REPORTS -->
+<div class="view" id="view-reports">
+<div class="appbar"><div class="abl"><div class="abt">رپورٹ</div></div></div>
+<div class="vi">
+<div class="slbl">آج کا خلاصہ</div>
+<div class="rc">
+<div class="rr"><span class="rk">اُدھار دیا</span><span class="rv r" id="rcr">₨0</span></div>
+<div class="rr"><span class="rk">ادائیگی ملی</span><span class="rv g" id="rpa">₨0</span></div>
+<div class="rr"><span class="rk">خالص نقد</span><span class="rv" id="rnt">₨0</span></div>
+<div class="rr"><span class="rk">آج فروخت</span><span class="rv w" id="rst2">₨0</span></div>
+<div class="rr"><span class="rk">آج منافع</span><span class="rv g" id="rpr">₨0</span></div>
+</div>
+<div class="slbl">مجموعی</div>
+<div class="rc">
+<div class="rr"><span class="rk">کل گاہک</span><span class="rv" id="rtc">0</span></div>
+<div class="rr"><span class="rk">کل باقی اُدھار</span><span class="rv r" id="rtb">₨0</span></div>
+<div class="rr"><span class="rk">ماہانہ فروخت</span><span class="rv b" id="rms">₨0</span></div>
+<div class="rr"><span class="rk">انوینٹری قیمت</span><span class="rv pu" id="riv">₨0</span></div>
+<div class="rr"><span class="rk">انوینٹری آئٹم</span><span class="rv" id="ric">0</span></div>
+</div>
+<div class="slbl">سب سے زیادہ باقی</div><div class="rc" id="tdbt"></div>
+<div class="slbl">کم اسٹاک</div><div class="rc" id="lstk"></div>
+<button class="fab sg2" onclick="shrRpt()" style="margin-top:8px"><i class="ti ti-brand-whatsapp"></i> WhatsApp رپورٹ</button>
+</div></div>
+<!-- CREDIT ENTRY -->
+<div class="view" id="view-ce">
+<div class="appbar"><div class="abl"><div class="abt">اُدھار دیں</div><div class="abs" id="cesub">گاہک منتخب کریں</div></div><button class="bbtn" onclick="goBack()">واپس</button></div>
+<div class="vi">
+<div class="ib wn" id="cebar" style="display:none"></div>
+<div class="aml">رقم (روپے)</div><div class="adp" id="ceamt">₨0</div>
+<div class="numpad" id="cenp"></div>
+<input id="cenote" class="fi" style="margin-bottom:10px" placeholder="نوٹ — کیا سامان لیا؟">
+<div class="slbl">گاہک منتخب کریں</div>
+<div class="card" id="cecl"></div>
+<button class="cbtn cc" id="cebtn" onclick="confCE()" disabled>اُدھار درج کریں</button>
+</div></div>
+<!-- PAYMENT ENTRY -->
+<div class="view" id="view-pe">
+<div class="appbar"><div class="abl"><div class="abt">ادائیگی لیں</div><div class="abs" id="pesub">گاہک منتخب کریں</div></div><button class="bbtn" onclick="goBack()">واپس</button></div>
+<div class="vi">
+<div class="ib in2" id="pebar" style="display:none"></div>
+<div class="aml">رقم (روپے)</div><div class="adp" id="peamt">₨0</div>
+<div class="numpad" id="penp"></div>
+<input id="penote" class="fi" style="margin-bottom:10px" placeholder="نوٹ (اختیاری)">
+<div class="slbl">گاہک منتخب کریں</div>
+<div class="card" id="pecl"></div>
+<button class="cbtn cp2" id="pebtn" onclick="confPE()" disabled>ادائیگی درج کریں</button>
+</div></div>
+<!-- CUSTOMER PROFILE -->
+<div class="view" id="view-profile">
+<div class="appbar"><div class="abl"><div class="abt" id="ptitle">گاہک</div></div><button class="bbtn" onclick="goBack()">واپس</button></div>
+<div class="vi">
+<div class="ph" id="phdr"></div>
+<div class="ar2" id="pacts"></div>
+<div class="slbl">لین دین کی تاریخ</div>
+<div class="card" id="ptxns"></div>
+</div></div>
+<!-- CUSTOMER FORM -->
+<div class="view" id="view-cf">
+<div class="appbar"><div class="abl"><div class="abt" id="cftitle">نیا گاہک</div></div><button class="bbtn" onclick="goBack()">واپس</button></div>
+<div class="vi"><div class="fc">
+<input type="hidden" id="cfid">
+<div class="ff"><label class="fl">نام <span>*</span></label><input id="cfn" class="fi" placeholder="گاہک کا پورا نام"><div class="fe" id="cfnerr"></div></div>
+<div class="ff"><label class="fl">موبائل <span>*</span></label><input id="cfph" class="fi" type="tel" placeholder="03001234567"><div class="fe" id="cfpherr"></div></div>
+<div class="ff"><label class="fl">پتہ</label><input id="cfad" class="fi" placeholder="گلی / محلہ / علاقہ"></div>
+<div class="ff" id="cfbf"><label class="fl">پرانی باقی رقم</label><input id="cfbl" class="fi" type="number" min="0" placeholder="0"><div class="fe" id="cfblerr"></div></div>
+<button class="fsb" id="cfsb" onclick="saveC()">محفوظ کریں</button>
+<button class="fdb" id="cfdb" style="display:none" onclick="delC()">گاہک حذف کریں</button>
+</div></div></div>
+<!-- INVENTORY FORM -->
+<div class="view" id="view-if">
+<div class="appbar"><div class="abl"><div class="abt" id="iftitle">نیا آئٹم</div></div><button class="bbtn" onclick="goBack()">واپس</button></div>
+<div class="vi"><div class="fc">
+<input type="hidden" id="ifid">
+<div class="ff"><label class="fl">آئٹم کا نام <span>*</span></label><input id="ifn" class="fi" placeholder="مثال: آٹا 10kg"><div class="fe" id="ifnerr"></div></div>
+<div class="ff"><label class="fl">زمرہ</label><input id="ifct" class="fi" placeholder="مثال: اناج، مشروبات"></div>
+<div class="ff"><label class="fl">مقدار <span>*</span></label><input id="ifq" class="fi" type="number" min="0" placeholder="0"><div class="fe" id="ifqerr"></div></div>
+<div class="ff"><label class="fl">خریداری قیمت (فی یونٹ)</label><input id="ifcp" class="fi" type="number" min="0" placeholder="0"></div>
+<div class="ff"><label class="fl">فروخت قیمت (فی یونٹ) <span>*</span></label><input id="ifsp" class="fi" type="number" min="0" placeholder="0"><div class="fe" id="ifsperr"></div></div>
+<div class="ff"><label class="fl">کم اسٹاک الرٹ</label><input id="ifla" class="fi" type="number" min="0" placeholder="5"></div>
+<button class="fsb" id="ifsb" onclick="saveI()">محفوظ کریں</button>
+<button class="fdb" id="ifdb" style="display:none" onclick="delI()">آئٹم حذف کریں</button>
+</div></div></div>
+<!-- SALE FORM -->
+<div class="view" id="view-sf">
+<div class="appbar"><div class="abl"><div class="abt">نئی فروخت</div></div><button class="bbtn" onclick="goBack()">واپس</button></div>
+<div class="vi"><div class="fc">
+<div class="ff"><label class="fl">آئٹم <span>*</span></label><select id="sfitem" class="fi" onchange="onSIC()"><option value="">-- آئٹم چنیں --</option></select><div class="fe" id="sfierr"></div></div>
+<div class="ib in2" id="sfsi" style="display:none"></div>
+<div class="ff"><label class="fl">مقدار <span>*</span></label><input id="sfq" class="fi" type="number" min="1" placeholder="1" oninput="calcST()"><div class="fe" id="sfqerr"></div></div>
+<div class="ff"><label class="fl">فروخت قیمت (فی یونٹ)</label><input id="sfp" class="fi" type="number" min="0" placeholder="0" oninput="calcST()"></div>
+<div class="ib sg3" id="sftot" style="display:none"></div>
+<div class="ff"><label class="fl">گاہک</label><select id="sfcust" class="fi"><option value="">-- نقد فروخت --</option></select></div>
+<div class="ff"><label class="fl">نوٹ</label><input id="sfnt" class="fi" placeholder="اضافی معلومات"></div>
+<button class="fsb" id="sfsb" onclick="saveS()">فروخت محفوظ کریں</button>
+</div></div></div>
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav" style="display:none">
+<button class="nb active" id="nav-home" onclick="navTo('home')"><i class="ti ti-home"></i><span>ہوم</span></button>
+<button class="nb" id="nav-customers" onclick="navTo('customers')"><i class="ti ti-users"></i><span>گاہک</span></button>
+<button class="nb" id="nav-inventory" onclick="navTo('inventory')"><i class="ti ti-package"></i><span>اسٹاک</span></button>
+<button class="nb" id="nav-sales" onclick="navTo('sales')"><i class="ti ti-shopping-cart"></i><span>فروخت</span></button>
+<button class="nb" id="nav-reports" onclick="navTo('reports')"><i class="ti ti-chart-bar"></i><span>رپورٹ</span></button>
+</div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+'use strict';
+/* ══════════════════════════════════════════════════════
+   ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
+   Firebase Console → Project Settings → Your Apps → Web
+   ══════════════════════════════════════════════════════ */
+const FBC={
+  apiKey:"YOUR_API_KEY",
+  authDomain:"YOUR_PROJECT.firebaseapp.com",
+  projectId:"YOUR_PROJECT_ID",
+  storageBucket:"YOUR_PROJECT.appspot.com",
+  messagingSenderId:"YOUR_SENDER_ID",
+  appId:"YOUR_APP_ID"
+};
+firebase.initializeApp(FBC);
+const auth=firebase.auth();
+const db=firebase.firestore();
+db.enablePersistence({synchronizeTabs:true}).catch(e=>{
+  if(e.code!=='failed-precondition'&&e.code!=='unimplemented')console.warn('Persist:',e);
+});
+
+/* ══ Constants ══ */
+const TODAY=new Date().toISOString().slice(0,10);
+const MONTH=new Date().toISOString().slice(0,7);
+const AV=['ab','ag','aw2','ar','apu'];
+const NAVV=['home','customers','inventory','sales','reports'];
+const OVLV=['ce','pe','profile','cf','if','sf'];
+const AUTHV=['auth-login','auth-register'];
+
+/* ══ State ══ */
+const S={
+  uid:null,store:'دکان',owner:'',
+  custs:[],inv:[],sales:[],txns:[],
+  cv:'',pv:'home',
+  ceAmt:'',ceCid:null,
+  peAmt:'',peCid:null,
+  profId:null,
+  eCid:null,eIid:null,
+  sf:'all',ssf:'today',sif:'all',
+};
+let uC=null,uI=null,uS=null,uT=null;
+
+/* ══ Firestore paths ══ */
+const ud=()=>db.doc(`users/${S.uid}`);
+const cc=()=>db.collection(`users/${S.uid}/customers`);
+const ic=()=>db.collection(`users/${S.uid}/inventory`);
+const sc2=()=>db.collection(`users/${S.uid}/sales`);
+const tc=()=>db.collection(`users/${S.uid}/transactions`);
+const FV=firebase.firestore.FieldValue;
+
+/* ══ Helpers ══ */
+const fmt=n=>'₨'+Math.round(parseFloat(n)||0).toLocaleString('en-PK');
+const $=id=>document.getElementById(id);
+const eh=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const ini=n=>{if(!n)return'?';const p=String(n).trim().split(/\s+/);return((p[0]?.[0]??'')+(p[1]?.[0]??'')).toUpperCase()||'?';};
+const av=i=>AV[i%AV.length];
+const nt=()=>{try{return new Date().toLocaleTimeString('en-PK',{hour:'2-digit',minute:'2-digit',hour12:true})}catch{return new Date().toTimeString().slice(0,5)}};
+const sE=(id,m)=>{const e=$(id);if(e){e.textContent=m;e.style.display=m?'block':'none';}};
+const cE=(...ids)=>ids.forEach(id=>sE(id,''));
+const sB=(id,d,t)=>{const b=$(id);if(!b)return;b.disabled=d;if(t)b.textContent=t;};
+const em=(ic,m,h)=>`<div class="es"><i class="ti ${ic}"></i><p>${eh(m)}</p>${h?`<small>${eh(h)}</small>`:''}</div>`;
+
+/* ══ Auth observer ══ */
+auth.onAuthStateChanged(async u=>{
+  $('ls').style.display='none';
+  if(u){
+    S.uid=u.uid;
+    await loadP();
+    attach();
+    $('bnav').style.display='flex';
+    showV('home');
+  } else {
+    S.uid=null;
+    detach();reset();
+    $('bnav').style.display='none';
+    showV('auth-login');
+  }
+});
+
+/* ══ Auth actions ══ */
+async function doLogin(){
+  const e=($('le').value||'').trim(),p=$('lp').value;
+  $('lerr').textContent='';
+  if(!e||!p){$('lerr').textContent='ای میل اور پاسورڈ درج کریں';return;}
+  sB('lbtn',true,'انتظار کریں...');
+  try{await auth.signInWithEmailAndPassword(e,p);}
+  catch(er){$('lerr').textContent=aM(er.code);}
+  finally{sB('lbtn',false,'لاگ ان کریں');}
+}
+async function doRegister(){
+  const st=($('rst').value||'').trim(),ow=($('row').value||'').trim(),
+        em=($('rem').value||'').trim(),ps=$('rps').value;
+  $('rerr').textContent='';
+  if(!st){$('rerr').textContent='دکان کا نام ضروری ہے';return;}
+  if(!em){$('rerr').textContent='ای میل ضروری ہے';return;}
+  if(ps.length<6){$('rerr').textContent='پاسورڈ کم از کم 6 حروف';return;}
+  sB('rbtn',true,'انتظار کریں...');
+  try{
+    const c=await auth.createUserWithEmailAndPassword(em,ps);
+    await db.doc(`users/${c.user.uid}`).set({storeName:st,ownerName:ow,email:em,createdAt:FV.serverTimestamp()});
+  }catch(er){$('rerr').textContent=aM(er.code);}
+  finally{sB('rbtn',false,'اکاؤنٹ بنائیں');}
+}
+async function doLogout(){detach();await auth.signOut();}
+function navAuth(t){$('lerr').textContent='';$('rerr').textContent='';showV('auth-'+t);}
+function aM(c){return({'auth/user-not-found':'یہ ای میل رجسٹر نہیں','auth/wrong-password':'پاسورڈ غلط ہے','auth/invalid-credential':'ای میل یا پاسورڈ غلط ہے','auth/invalid-email':'ای میل فارمیٹ درست نہیں','auth/email-already-in-use':'یہ ای میل پہلے سے موجود ہے','auth/weak-password':'پاسورڈ بہت کمزور ہے','auth/too-many-requests':'بہت زیادہ کوششیں — دیر بعد آزمائیں','auth/network-request-failed':'انٹرنیٹ چیک کریں'})[c]||`خرابی (${c})`;}
+
+/* ══ Profile ══ */
+async function loadP(){
+  try{
+    const s=await ud().get();
+    if(s.exists){S.store=s.data().storeName||'دکان';S.owner=s.data().ownerName||'';}
+    else{await ud().set({storeName:'دکان',ownerName:'',email:auth.currentUser?.email||'',createdAt:FV.serverTimestamp()},{merge:true});}
+    const l=$('storelbl');if(l)l.textContent=S.store;
+  }catch(e){console.warn('loadP:',e);}
+}
+
+/* ══ Listeners ══ */
+function attach(){
+  uC=cc().orderBy('balance','desc').onSnapshot(s=>{S.custs=s.docs.map(d=>({id:d.id,...d.data()}));rv();},onErr);
+  uI=ic().orderBy('name','asc').onSnapshot(s=>{S.inv=s.docs.map(d=>({id:d.id,...d.data()}));rv();},onErr);
+  uS=sc2().orderBy('createdAt','desc').limit(200).onSnapshot(s=>{S.sales=s.docs.map(d=>({id:d.id,...d.data()}));rv();},onErr);
+  uT=tc().orderBy('createdAt','desc').limit(200).onSnapshot(s=>{S.txns=s.docs.map(d=>({id:d.id,...d.data()}));rv();},onErr);
+  window.addEventListener('online',()=>syB(true));
+  window.addEventListener('offline',()=>syB(false));
+  syB(navigator.onLine);
+}
+function detach(){[uC,uI,uS,uT].forEach(u=>{if(u)u();});uC=uI=uS=uT=null;}
+function onErr(e){console.error('Snapshot:',e);if(e.code==='permission-denied')doLogout();}
+function reset(){Object.assign(S,{uid:null,store:'دکان',owner:'',custs:[],inv:[],sales:[],txns:[]});}
+function syB(on){const e=$('sybdg');if(!e)return;e.className='sybdg '+(on?'on':'off');e.innerHTML=`<span class="syd"></span>${on?'آن لائن':'آف لائن'}`;}
+
+/* ══ Navigation ══ */
+function showV(v){
+  if(v!==S.cv)S.pv=S.cv;
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  const t=$('view-'+v);if(!t){console.error('No view:',v);return;}
+  t.classList.add('active');
+  const auth2=AUTHV.includes(v),ovl=OVLV.includes(v);
+  $('bnav').style.display=(auth2||ovl)?'none':'flex';
+  NAVV.forEach(x=>{const b=$('nav-'+x);if(b)b.classList.toggle('active',x===v);});
+  S.cv=v;
+  rv(v);
+}
+function navTo(v){showV(v);}
+function goBack(){const s=(OVLV.includes(S.pv)||AUTHV.includes(S.pv)||!S.pv)?'home':S.pv;showV(s);}
+function rv(v){
+  const x=v||S.cv;
+  if(x==='home')rH();
+  if(x==='customers')rC(S.custs);
+  if(x==='inventory')rI();
+  if(x==='sales')rS();
+  if(x==='reports')rR();
+  if(x==='profile')rpV();
+  if(x==='ce')bCL('ce');
+  if(x==='pe')bCL('pe');
+}
+
+/* ══ Overlays ══ */
+function showOK(t,s,cb){
+  const o=document.createElement('div');o.className='ovl';
+  o.innerHTML=`<div class="oi ok"><i class="ti ti-check"></i></div><div class="ot">${eh(t)}</div><div class="os">${eh(s)}</div>`;
+  $('app').appendChild(o);setTimeout(()=>{o.remove();if(typeof cb==='function')cb();},1500);
+}
+function showER(m){
+  const o=document.createElement('div');o.className='ovl';
+  o.innerHTML=`<div class="oi er"><i class="ti ti-x"></i></div><div class="ot" style="color:var(--r)">${eh(m)}</div><div class="os">دوبارہ کوشش کریں</div>`;
+  $('app').appendChild(o);setTimeout(()=>o.remove(),2200);
+}
+
+/* ══ Computed ══ */
+const tC=()=>S.txns.filter(t=>t.type==='credit'&&t.dateStr===TODAY).reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+const tP=()=>S.txns.filter(t=>t.type==='payment'&&t.dateStr===TODAY).reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+const tS=()=>S.sales.filter(s=>s.dateStr===TODAY).reduce((s,x)=>s+(parseFloat(x.total)||0),0);
+const mS=()=>S.sales.filter(s=>(s.dateStr||'').startsWith(MONTH)).reduce((s,x)=>s+(parseFloat(x.total)||0),0);
+const tPr=()=>S.sales.filter(s=>s.dateStr===TODAY).reduce((s,x)=>s+(parseFloat(x.profit)||0),0);
+const tB=()=>S.custs.reduce((s,c)=>s+(parseFloat(c.balance)||0),0);
+const iV=()=>S.inv.reduce((s,i)=>s+((parseFloat(i.qty)||0)*(parseFloat(i.costPrice)||0)),0);
+
+/* ══ Render Home ══ */
+function rH(){
+  $('hcr').textContent=fmt(tC());$('hpa').textContent=fmt(tP());
+  $('htb').textContent=fmt(tB());$('hcu').textContent=S.custs.length;
+  $('hsa').textContent=fmt(tS());$('hiv').textContent=S.inv.length;
+  const el=$('rtxns'),r=S.txns.slice(0,6);
+  el.innerHTML=r.length?r.map(tR).join(''):em('ti-list','ابھی کوئی لین دین نہیں','اُدھار دیں یا ادائیگی لیں');
+}
+function tR(t){return`<div class="li"><div class="av ${t.av||'ab'}">${ini(t.custName)}</div><div class="im"><div class="in">${eh(t.custName)}</div><div class="is">${eh(t.note||'---')} · ${eh(t.time)}</div></div><div class="ir"><div class="ia ${t.type==='credit'?'r':'g'}">${t.type==='credit'?'+':'-'}${fmt(t.amount)}</div><span class="bdg ${t.type==='credit'?'bdr':'bdg2'}">${t.type==='credit'?'اُدھار':'ادائیگی'}</span></div></div>`;}
+
+/* ══ Render Customers ══ */
+function rC(list){
+  const el=$('clist');if(!el)return;
+  const s=[...list].sort((a,b)=>(b.balance||0)-(a.balance||0));
+  el.innerHTML=s.length?s.map(c=>`<div class="li" onclick="openProf('${eh(c.id)}')"><div class="av ${c.av||'ab'}">${eh(c.ini||ini(c.name))}</div><div class="im"><div class="in">${eh(c.name)}</div><div class="is">${eh(c.phone)}</div></div><div class="ir"><div class="ia ${(c.balance||0)>0?'r':'g'}">${fmt(c.balance)}</div><span class="bdg ${(c.balance||0)>0?'bdr':'bdg2'}">${(c.balance||0)>0?'باقی':'صاف'}</span></div></div>`).join(''):em('ti-users','کوئی گاہک نہیں','نیا گاہک شامل کریں');
+}
+function filtC(q){if(!q?.trim()){rC(S.custs);return;}const l=q.toLowerCase();rC(S.custs.filter(c=>(c.name||'').toLowerCase().includes(l)||(c.phone||'').includes(q)));}
+
+/* ══ Render Inventory ══ */
+function rI(list){
+  const cats=[...new Set(S.inv.map(i=>i.category||'دیگر'))].sort();
+  const flt=[['all','سب'],...cats.map(c=>[c,c])];
+  $('ichips').innerHTML=flt.map(([k,l])=>`<button class="chip${S.sif===k?' active':''}" onclick="setIF('${eh(k)}')">${eh(l)}</button>`).join('');
+  let items=list||S.inv;
+  if(S.sif!=='all')items=items.filter(i=>(i.category||'دیگر')===S.sif);
+  const el=$('ilist');
+  el.innerHTML=items.length?items.map(i=>{
+    const low=i.lowStockAlert&&(i.qty||0)<=(i.lowStockAlert||0);
+    return`<div class="li" onclick="openEI('${eh(i.id)}')"><div class="av apu"><i class="ti ti-package" style="font-size:18px"></i></div><div class="im"><div class="in">${eh(i.name)}</div><div class="is">${eh(i.category||'دیگر')} · خریداری: ${fmt(i.costPrice||0)} · فروخت: ${fmt(i.salePrice||0)}</div><div class="stb"><div class="stf" style="width:${i.lowStockAlert?Math.min(100,((i.qty||0)/(i.lowStockAlert*2||1))*100):50}%;background:${low?'var(--r)':'var(--g)'}"></div></div></div><div class="ir"><div class="ia ${low?'r':''}">${i.qty||0} یونٹ</div><span class="bdg ${low?'bdr':'bdi'}">${low?'کم اسٹاک':'دستیاب'}</span></div></div>`;
+  }).join(''):em('ti-package','انوینٹری خالی ہے','نیا آئٹم شامل کریں');
+}
+function filtI(q){if(!q?.trim()){rI();return;}const l=q.toLowerCase();rI(S.inv.filter(i=>(i.name||'').toLowerCase().includes(l)||(i.category||'').toLowerCase().includes(l)));}
+function setIF(f){S.sif=f;rI();}
+
+/* ══ Render Sales ══ */
+function rS(){
+  const flt=[['today','آج'],['month','یہ ماہ'],['all','سب']];
+  $('schips').innerHTML=flt.map(([k,l])=>`<button class="chip${S.ssf===k?' active':''}" onclick="setSSF('${k}')">${l}</button>`).join('');
+  $('std').textContent=fmt(tS());$('smo').textContent=fmt(mS());
+  $('spr').textContent=fmt(tPr());$('sct').textContent=S.sales.length;
+  let list=S.sales;
+  if(S.ssf==='today')list=list.filter(s=>s.dateStr===TODAY);
+  if(S.ssf==='month')list=list.filter(s=>(s.dateStr||'').startsWith(MONTH));
+  $('slist').innerHTML=list.length?list.map(s=>`<div class="li"><div class="av aw2"><i class="ti ti-shopping-cart" style="font-size:18px"></i></div><div class="im"><div class="in">${eh(s.itemName||'فروخت')}</div><div class="is">${eh(s.custName||'نقد')} · ${eh(s.qty||1)} یونٹ · ${eh(s.dateStr)}</div></div><div class="ir"><div class="ia w">${fmt(s.total)}</div><span class="bdg bdi">منافع: ${fmt(s.profit||0)}</span></div></div>`).join(''):em('ti-shopping-cart','کوئی فروخت نہیں','نئی فروخت درج کریں');
+}
+function setSSF(f){S.ssf=f;rS();}
+
+/* ══ Render Reports ══ */
+function rR(){
+  const tc2=tC(),tp=tP(),net=tp-tc2,ts=tS(),tp2=tPr();
+  $('rcr').textContent=fmt(tc2);$('rpa').textContent=fmt(tp);
+  $('rnt').textContent=fmt(Math.abs(net));$('rnt').style.color=net>=0?'var(--g)':'var(--r)';
+  $('rst2').textContent=fmt(ts);$('rpr').textContent=fmt(tp2);
+  $('rtc').textContent=S.custs.length;$('rtb').textContent=fmt(tB());
+  $('rms').textContent=fmt(mS());$('riv').textContent=fmt(iV());$('ric').textContent=S.inv.length;
+  const d=[...S.custs].filter(c=>(c.balance||0)>0).sort((a,b)=>(b.balance||0)-(a.balance||0)).slice(0,5);
+  $('tdbt').innerHTML=d.length?d.map((c,i)=>`<div class="li"><div style="width:24px;font-size:13px;color:var(--mut);font-weight:700">#${i+1}</div><div class="av ${c.av||'ab'}" style="width:32px;height:32px;font-size:11px">${eh(c.ini||ini(c.name))}</div><div class="im"><div class="in">${eh(c.name)}</div><div class="is">${eh(c.phone)}</div></div><div class="ia r">${fmt(c.balance)}</div></div>`).join(''):'<div style="padding:12px 14px;color:var(--mut);font-size:13px;text-align:center">سب کا حساب صاف ہے ✓</div>';
+  const ls=S.inv.filter(i=>i.lowStockAlert&&(i.qty||0)<=(i.lowStockAlert||0));
+  $('lstk').innerHTML=ls.length?ls.map(i=>`<div class="li"><div class="av ar"><i class="ti ti-alert-triangle" style="font-size:16px"></i></div><div class="im"><div class="in">${eh(i.name)}</div><div class="is">موجودہ: ${i.qty||0} · الرٹ: ${i.lowStockAlert}</div></div><span class="bdg bdr">کم اسٹاک</span></div>`).join(''):'<div style="padding:12px 14px;color:var(--mut);font-size:13px;text-align:center">کوئی کم اسٹاک نہیں ✓</div>';
+}
+function shrRpt(){
+  const m=`*${S.store} — رپورٹ*\n\nآج اُدھار: ${fmt(tC())}\nآج ادائیگی: ${fmt(tP())}\nآج فروخت: ${fmt(tS())}\nآج منافع: ${fmt(tPr())}\n\nکل گاہک: ${S.custs.length}\nکل باقی: ${fmt(tB())}\nماہانہ فروخت: ${fmt(mS())}\nانوینٹری قیمت: ${fmt(iV())}\n\n_Aladin App_`;
+  try{window.open('https://wa.me/?text='+encodeURIComponent(m),'_blank');}catch{showER('WhatsApp نہیں کھل سکا');}
+}
+
+/* ══ Credit Entry ══ */
+function openCE(){
+  S.pv=S.cv;S.ceAmt='';S.ceCid=null;
+  $('ceamt').textContent='₨0';$('cenote').value='';
+  $('cebar').style.display='none';$('cesub').textContent='گاہک منتخب کریں';
+  $('cebtn').disabled=true;
+  bNP('cenp','ce');bCL('ce');showV('ce');
+}
+function openPE(){
+  S.pv=S.cv;S.peAmt='';S.peCid=null;
+  $('peamt').textContent='₨0';$('penote').value='';
+  $('pebar').style.display='none';$('pesub').textContent='گاہک منتخب کریں';
+  $('pebtn').disabled=true;
+  bNP('penp','pe');bCL('pe');showV('pe');
+}
+function bNP(tid,pfx){
+  $(tid).innerHTML=['1','2','3','4','5','6','7','8','9','0','00','⌫']
+    .map(k=>`<button class="nk" onclick="nT('${pfx}',this)" data-k="${k}">${k}</button>`).join('');
+}
+function nT(pfx,btn){
+  const k=btn.getAttribute('data-k'),ak=pfx+'Amt',ck=pfx+'Cid';
+  if(k==='⌫')S[ak]=S[ak].slice(0,-1);
+  else if(S[ak].length<7){if(S[ak]===''&&(k==='0'||k==='00'))return;S[ak]+=k;}
+  const n=parseInt(S[ak],10)||0;
+  $(pfx+'amt').textContent=fmt(n);
+  $(pfx+'btn').disabled=!(S[ck]&&n>0);
+}
+function bCL(pfx){
+  const el=$(pfx+'cl');if(!el)return;
+  if(!S.custs.length){el.innerHTML=em('ti-users','کوئی گاہک نہیں','پہلے گاہک شامل کریں');return;}
+  el.innerHTML=S.custs.map(c=>`<div class="li" id="${pfx}r${c.id}" onclick="selC('${pfx}','${c.id}')"><div class="av ${c.av||'ab'}">${eh(c.ini||ini(c.name))}</div><div class="im"><div class="in">${eh(c.name)}</div><div class="is">باقی: ${fmt(c.balance)}</div></div><i class="ti ti-circle" id="${pfx}chk${c.id}" style="font-size:20px;color:var(--brd)"></i></div>`).join('');
+  const sel=pfx==='ce'?S.ceCid:S.peCid;
+  if(sel)hlC(pfx,sel);
+}
+function selC(pfx,id){
+  S.custs.forEach(c=>{
+    const chk=$(pfx+'chk'+c.id),row=$(pfx+'r'+c.id);
+    if(chk){chk.className='ti ti-circle';chk.style.color='var(--brd)';}
+    if(row)row.style.background='';
+  });
+  if(pfx==='ce')S.ceCid=id;else S.peCid=id;
+  hlC(pfx,id);
+  const c=S.custs.find(x=>x.id===id);if(!c)return;
+  $(pfx+'sub').textContent=c.name;
+  const bar=$(pfx+'bar'),bal=parseFloat(c.balance)||0;
+  if(pfx==='pe'&&bal>0){bar.style.display='block';bar.textContent='موجودہ باقی: '+fmt(bal);}
+  else bar.style.display='none';
+  const n=parseInt(S[pfx+'Amt'],10)||0;
+  $(pfx+'btn').disabled=n<=0;
+}
+function hlC(pfx,id){
+  const chk=$(pfx+'chk'+id),row=$(pfx+'r'+id);
+  if(chk){chk.className='ti ti-circle-check';chk.style.color='var(--p)';}
+  if(row)row.style.background='var(--pl)';
+}
+
+async function confCE(){
+  const n=parseInt(S.ceAmt,10)||0;
+  if(n<=0){showER('رقم صفر نہیں ہو سکتی');return;}
+  if(!S.ceCid){showER('گاہک منتخب کریں');return;}
+  const c=S.custs.find(x=>x.id===S.ceCid);if(!c){showER('گاہک نہیں ملا');return;}
+  $('cebtn').disabled=true;
+  try{
+    const nb=(parseFloat(c.balance)||0)+n,batch=db.batch();
+    batch.update(cc().doc(S.ceCid),{balance:nb,updatedAt:FV.serverTimestamp()});
+    batch.set(tc().doc(),{custId:S.ceCid,custName:c.name,type:'credit',amount:n,note:($('cenote').value||'').trim(),time:nt(),dateStr:TODAY,av:c.av||'ab',createdAt:FV.serverTimestamp()});
+    await batch.commit();
+    showOK('اُدھار درج ہو گیا',`${c.name}: ${fmt(n)}`,()=>showV('home'));
+  }catch(e){console.error('CE:',e);showER('محفوظ نہیں ہو سکا');$('cebtn').disabled=false;}
+}
+
+async function confPE(){
+  const n=parseInt(S.peAmt,10)||0;
+  if(n<=0){showER('رقم صفر نہیں ہو سکتی');return;}
+  if(!S.peCid){showER('گاہک منتخب کریں');return;}
+  const c=S.custs.find(x=>x.id===S.peCid);if(!c){showER('گاہک نہیں ملا');return;}
+  $('pebtn').disabled=true;
+  try{
+    const nb=Math.max(0,(parseFloat(c.balance)||0)-n),batch=db.batch();
+    batch.update(cc().doc(S.peCid),{balance:nb,updatedAt:FV.serverTimestamp()});
+    batch.set(tc().doc(),{custId:S.peCid,custName:c.name,type:'payment',amount:n,note:($('penote').value||'').trim(),time:nt(),dateStr:TODAY,av:c.av||'ab',createdAt:FV.serverTimestamp()});
+    await batch.commit();
+    showOK('ادائیگی درج ہو گئی',`${c.name}: ${fmt(n)}`,()=>showV('home'));
+  }catch(e){console.error('PE:',e);showER('محفوظ نہیں ہو سکا');$('pebtn').disabled=false;}
+}
+
+/* ══ Customer Profile ══ */
+function openProf(id){
+  const c=S.custs.find(x=>x.id===id);if(!c){showER('گاہک نہیں ملا');return;}
+  S.pv=S.cv;S.profId=id;rpV2(c);showV('profile');
+}
+function rpV2(c){
+  $('ptitle').textContent=c.name;
+  $('phdr').innerHTML=`<div class="pav">${eh(c.ini||ini(c.name))}</div><div class="pn">${eh(c.name)}</div><div class="pp">${eh(c.phone)}${c.address?' · '+eh(c.address):''}</div><div class="pbl">باقی اُدھار</div><div class="pb">${fmt(c.balance)}</div>`;
+  $('pacts').innerHTML=`<button class="acbtn" onclick="openCEFor('${eh(c.id)}')"><i class="ti ti-arrow-up-right" style="color:var(--r)"></i>اُدھار</button><button class="acbtn" onclick="openPEFor('${eh(c.id)}')"><i class="ti ti-arrow-down-left" style="color:var(--g)"></i>ادائیگی</button><button class="acbtn" onclick="sendWA('${eh(c.id)}')"><i class="ti ti-brand-whatsapp" style="color:#25D366"></i>یاد دہانی</button><button class="acbtn" onclick="openEC('${eh(c.id)}')"><i class="ti ti-edit" style="color:var(--p)"></i>تبدیل</button>`;
+  const ct=S.txns.filter(t=>t.custId===c.id);
+  $('ptxns').innerHTML=ct.length?ct.map(t=>`<div class="li"><div style="width:10px;height:10px;border-radius:50%;background:${t.type==='credit'?'var(--r)':'var(--g)'};flex-shrink:0;margin-top:4px"></div><div class="im"><div class="in">${eh(t.note||(t.type==='credit'?'اُدھار':'ادائیگی'))}</div><div class="is">${eh(t.dateStr)} · ${eh(t.time)}</div></div><div class="ia ${t.type==='credit'?'r':'g'}">${t.type==='credit'?'+':'-'}${fmt(t.amount)}</div></div>`).join(''):em('ti-list','کوئی لین دین نہیں','');
+}
+function rpV(){if(S.cv!=='profile'||!S.profId)return;const c=S.custs.find(x=>x.id===S.profId);if(c)rpV2(c);}
+function openCEFor(id){openCE();setTimeout(()=>selC('ce',id),80);}
+function openPEFor(id){openPE();setTimeout(()=>selC('pe',id),80);}
+function sendWA(id){
+  const c=S.custs.find(x=>x.id===id);if(!c){showER('گاہک نہیں ملا');return;}
+  const m=`السلام علیکم ${c.name}،\nآپ کے ذمے ${S.store} کا ${fmt(c.balance)} باقی ہے۔\nبرائے مہربانی جلد ادائیگی فرمائیں۔\nشکریہ 🙏\n\n_Aladin App_`;
+  const ph=(c.phone||'').replace(/^0/,'92').replace(/\D/g,'');
+  try{window.open(`https://wa.me/${ph}?text=${encodeURIComponent(m)}`,'_blank');}catch{showER('WhatsApp نہیں کھل سکا');}
+}
+
+/* ══ Customer CRUD ══ */
+function openAC(){
+  S.pv=S.cv;S.eCid=null;
+  $('cftitle').textContent='نیا گاہک';$('cfid').value='';
+  ['cfn','cfph','cfad'].forEach(id=>$(id).value='');$('cfbl').value='';
+  $('cfbf').style.display='block';$('cfdb').style.display='none';
+  cE('cfnerr','cfpherr','cfblerr');showV('cf');
+}
+function openEC(id){
+  const c=S.custs.find(x=>x.id===id);if(!c){showER('گاہک نہیں ملا');return;}
+  S.pv=S.cv;S.eCid=id;
+  $('cftitle').textContent='گاہک تبدیل کریں';$('cfid').value=id;
+  $('cfn').value=c.name||'';$('cfph').value=c.phone||'';
+  $('cfad').value=c.address||'';$('cfbl').value=c.balance||0;
+  $('cfdb').style.display='block';cE('cfnerr','cfpherr','cfblerr');showV('cf');
+}
+async function saveC(){
+  const name=($('cfn').value||'').trim(),phone=($('cfph').value||'').trim(),
+        addr=($('cfad').value||'').trim(),bal=parseFloat($('cfbl').value)||0,eid=S.eCid;
+  cE('cfnerr','cfpherr','cfblerr');
+  let ok=true;
+  if(name.length<2){sE('cfnerr','⚠ نام کم از کم 2 حروف');ok=false;}
+  const dg=phone.replace(/\D/g,'');
+  if(!phone){sE('cfpherr','⚠ نمبر ضروری ہے');ok=false;}
+  else if(dg.length<10||dg.length>12){sE('cfpherr','⚠ نمبر درست نہیں');ok=false;}
+  else{const dup=S.custs.find(c=>c.phone.replace(/\D/g,'')===dg&&c.id!==eid);if(dup){sE('cfpherr',`⚠ یہ نمبر پہلے موجود ہے (${dup.name})`);ok=false;}}
+  if(bal<0){sE('cfblerr','⚠ منفی رقم نہیں ہو سکتی');ok=false;}
+  if(!ok||!S.uid)return;
+  sB('cfsb',true,'محفوظ ہو رہا ہے...');
+  try{
+    if(eid){
+      await cc().doc(eid).update({name,phone,address:addr,balance:bal,ini:ini(name),updatedAt:FV.serverTimestamp()});
+      showOK('گاہک تبدیل ہو گیا',name,()=>openProf(eid));
+    } else {
+      const batch=db.batch(),ref=cc().doc(),a=av(S.custs.length);
+      batch.set(ref,{name,phone,address:addr,balance:bal,av:a,ini:ini(name),createdAt:FV.serverTimestamp(),updatedAt:FV.serverTimestamp()});
+      if(bal>0)batch.set(tc().doc(),{custId:ref.id,custName:name,type:'credit',amount:bal,note:'ابتدائی باقی',time:nt(),dateStr:TODAY,av:a,createdAt:FV.serverTimestamp()});
+      await batch.commit();
+      showOK('گاہک شامل ہو گیا',name,()=>showV('customers'));
+    }
+  }catch(e){console.error('saveC:',e);showER('محفوظ نہیں ہو سکا');}
+  finally{sB('cfsb',false,'محفوظ کریں');}
+}
+async function delC(){
+  const id=S.eCid,c=S.custs.find(x=>x.id===id);
+  if(!c){showER('گاہک نہیں ملا');return;}
+  if(!confirm(`"${c.name}" کو حذف کریں؟`))return;
+  sB('cfdb',true,'حذف ہو رہا ہے...');
+  try{await cc().doc(id).delete();S.eCid=null;S.profId=null;showOK('گاہک حذف ہو گیا',c.name,()=>showV('customers'));}
+  catch(e){console.error('delC:',e);showER('حذف نہیں ہو سکا');sB('cfdb',false,'گاہک حذف کریں');}
+}
+
+/* ══ Inventory CRUD ══ */
+function openAI(){
+  S.pv=S.cv;S.eIid=null;$('iftitle').textContent='نیا آئٹم';$('ifid').value='';
+  ['ifn','ifct','ifq','ifcp','ifsp','ifla'].forEach(id=>$(id).value='');
+  $('ifdb').style.display='none';cE('ifnerr','ifqerr','ifsperr');showV('if');
+}
+function openEI(id){
+  const item=S.inv.find(x=>x.id===id);if(!item){showER('آئٹم نہیں ملا');return;}
+  S.pv=S.cv;S.eIid=id;$('iftitle').textContent='آئٹم تبدیل کریں';$('ifid').value=id;
+  $('ifn').value=item.name||'';$('ifct').value=item.category||'';$('ifq').value=item.qty||0;
+  $('ifcp').value=item.costPrice||0;$('ifsp').value=item.salePrice||0;$('ifla').value=item.lowStockAlert||5;
+  $('ifdb').style.display='block';cE('ifnerr','ifqerr','ifsperr');showV('if');
+}
+async function saveI(){
+  const name=($('ifn').value||'').trim(),cat=($('ifct').value||'').trim()||'دیگر',
+        qty=parseFloat($('ifq').value)||0,cost=parseFloat($('ifcp').value)||0,
+        price=parseFloat($('ifsp').value)||0,low=parseFloat($('ifla').value)||5,eid=S.eIid;
+  cE('ifnerr','ifqerr','ifsperr');
+  let ok=true;
+  if(!name){sE('ifnerr','⚠ نام ضروری ہے');ok=false;}
+  if(qty<0){sE('ifqerr','⚠ مقدار منفی نہیں ہو سکتی');ok=false;}
+  if(price<0){sE('ifsperr','⚠ قیمت منفی نہیں ہو سکتی');ok=false;}
+  if(!ok||!S.uid)return;
+  const data={name,category:cat,qty,costPrice:cost,salePrice:price,lowStockAlert:low,updatedAt:FV.serverTimestamp()};
+  sB('ifsb',true,'محفوظ ہو رہا ہے...');
+  try{
+    if(eid){await ic().doc(eid).update(data);}
+    else{await ic().add({...data,createdAt:FV.serverTimestamp()});}
+    showOK(eid?'آئٹم تبدیل ہو گیا':'آئٹم شامل ہو گیا',name,()=>showV('inventory'));
+  }catch(e){console.error('saveI:',e);showER('محفوظ نہیں ہو سکا');}
+  finally{sB('ifsb',false,'محفوظ کریں');}
+}
+async function delI(){
+  const id=S.eIid,item=S.inv.find(x=>x.id===id);
+  if(!item){showER('آئٹم نہیں ملا');return;}
+  if(!confirm(`"${item.name}" حذف کریں؟`))return;
+  sB('ifdb',true,'حذف ہو رہا ہے...');
+  try{await ic().doc(id).delete();S.eIid=null;showOK('آئٹم حذف ہو گیا',item.name,()=>showV('inventory'));}
+  catch(e){console.error('delI:',e);showER('حذف نہیں ہو سکا');sB('ifdb',false,'آئٹم حذف کریں');}
+}
+
+/* ══ Sales ══ */
+function openNS(){
+  S.pv=S.cv;
+  const si=$('sfitem');
+  si.innerHTML='<option value="">-- آئٹم چنیں --</option>'+
+    S.inv.filter(i=>(i.qty||0)>0).map(i=>`<option value="${eh(i.id)}">${eh(i.name)} (${i.qty} دستیاب)</option>`).join('');
+  const sc=$('sfcust');
+  sc.innerHTML='<option value="">-- نقد فروخت --</option>'+
+    S.custs.map(c=>`<option value="${eh(c.id)}">${eh(c.name)}</option>`).join('');
+  $('sfq').value='1';$('sfp').value='';$('sfnt').value='';
+  $('sfsi').style.display='none';$('sftot').style.display='none';
+  cE('sfierr','sfqerr');showV('sf');
+}
+function onSIC(){
+  const id=$('sfitem').value,item=S.inv.find(x=>x.id===id);
+  if(!item){$('sfsi').style.display='none';return;}
+  $('sfp').value=item.salePrice||0;
+  $('sfsi').style.display='block';
+  $('sfsi').textContent=`دستیاب: ${item.qty} یونٹ · خریداری: ${fmt(item.costPrice||0)}`;
+  calcST();
+}
+function calcST(){
+  const q=parseFloat($('sfq').value)||0,p=parseFloat($('sfp').value)||0,tot=q*p;
+  const b=$('sftot');
+  if(q>0&&p>0){b.style.display='block';b.textContent=`کل: ${fmt(tot)} (${q} × ${fmt(p)})`;}
+  else b.style.display='none';
+}
+async function saveS(){
+  const iid=$('sfitem').value,qty=parseFloat($('sfq').value)||0,
+        price=parseFloat($('sfp').value)||0,cid=$('sfcust').value||null,
+        note=($('sfnt').value||'').trim();
+  cE('sfierr','sfqerr');
+  let ok=true;
+  if(!iid){sE('sfierr','⚠ آئٹم منتخب کریں');ok=false;}
+  if(qty<=0){sE('sfqerr','⚠ مقدار صفر سے زیادہ ہونی چاہیے');ok=false;}
+  if(!ok)return;
+  const item=S.inv.find(x=>x.id===iid);if(!item){showER('آئٹم نہیں ملا');return;}
+  if((item.qty||0)<qty){showER(`کافی اسٹاک نہیں — صرف ${item.qty} دستیاب`);return;}
+  const total=qty*price,profit=qty*((price||0)-(item.costPrice||0));
+  const cust=cid?S.custs.find(x=>x.id===cid):null;
+  sB('sfsb',true,'محفوظ ہو رہا ہے...');
+  try{
+    const batch=db.batch();
+    batch.set(sc2().doc(),{itemId:iid,itemName:item.name,qty,salePrice:price,total,profit,custId:cid||null,custName:cust?.name||'نقد',note,dateStr:TODAY,time:nt(),createdAt:FV.serverTimestamp()});
+    batch.update(ic().doc(iid),{qty:firebase.firestore.FieldValue.increment(-qty),updatedAt:FV.serverTimestamp()});
+    if(cid&&cust){
+      const nb=(parseFloat(cust.balance)||0)+total;
+      batch.update(cc().doc(cid),{balance:nb,updatedAt:FV.serverTimestamp()});
+      batch.set(tc().doc(),{custId:cid,custName:cust.name,type:'credit',amount:total,note:`فروخت: ${item.name} ×${qty}`,time:nt(),dateStr:TODAY,av:cust.av||'ab',createdAt:FV.serverTimestamp()});
+    }
+    await batch.commit();
+    showOK('فروخت محفوظ ہو گئی',`${item.name} × ${qty} = ${fmt(total)}`,()=>showV('sales'));
+  }catch(e){console.error('saveS:',e);showER('فروخت محفوظ نہیں ہو سکی');}
+  finally{sB('sfsb',false,'فروخت محفوظ کریں');}
+}
+</script>
+</body>
+</html>
