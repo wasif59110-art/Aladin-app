@@ -1,890 +1,59 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<title>Aladin — علادین</title>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aladin MVP</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  -webkit-tap-highlight-color:transparent;
-}
-
-:root{
-  --p:#1A56A4;--pl:#E6F1FB;--pd:#0C3878;
-  --g:#27AE60;--gl:#E8F8F5;
-  --r:#E74C3C;--rl:#FDEDEC;
-  --w:#F5A623;--wl:#FEF9E7;--wd:#854F0B;
-  --pu:#8E44AD;--pul:#F5EEF8;
-
-  --bg:#F0F4FA;
-  --sur:#FFFFFF;
-  --brd:#BFCFE8;
-  --txt:#1A1A2E;
-  --mut:#6B7A99;
-  --sur2:#F8FAFD;
-
-  --navh:60px;
-  --abh:54px;
-  --rad:14px;
-  --sh:0 2px 12px rgba(26,86,164,.10);
-}
-
-html,body{
-  height:100%;
-  width:100%;
-  overflow:hidden;
-}
-
-body{
-  background:var(--bg);
-  font-family:'Segoe UI',system-ui,sans-serif;
-  display:flex;
-  align-items:stretch;
-  justify-content:center;
-}
-
-#app{
-  width:100%;
-  max-width:430px;
-  height:100vh;
-  background:var(--sur);
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  overflow:hidden;
-}
-
-/* ===== Mobile / Desktop scaling ===== */
-@media(min-width:500px){
-  body{
-    padding:16px;
-    align-items:flex-start;
-  }
-
-  #app{
-    border-radius:28px;
-    box-shadow:0 12px 48px rgba(0,0,0,.18);
-    height:calc(100vh - 32px);
-  }
-}
-
-/* ===== App Bar ===== */
-.appbar{
-  height:var(--abh);
-  min-height:var(--abh);
-  padding:0 16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:var(--sur);
-  border-bottom:1px solid var(--brd);
-  flex-shrink:0;
-  z-index:10;
-}
-
-/* ===== Login Screen ===== */
-#ls{
-  position:absolute;
-  inset:0;
-  background:var(--sur);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:20px;
-  z-index:100;
-}
-
-.logo{
-  font-size:44px;
-  font-weight:800;
-  color:var(--p);
-  letter-spacing:-2px;
-}
-
-/* spinner */
-.spin{
-  width:32px;
-  height:32px;
-  border:3px solid var(--brd);
-  border-top-color:var(--p);
-  border-radius:50%;
-  animation:sp .7s linear infinite;
-}
-
-@keyframes sp{
-  to{transform:rotate(360deg);}
-}
-
-/* ===== Login form ===== */
-.aw{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:28px 20px;
-  background:var(--sur);
-  overflow-y:auto;
-}
-
-.alo{
-  font-size:36px;
-  font-weight:800;
-  color:var(--p);
-  text-align:center;
-}
-
-.atg{
-  font-size:13px;
-  color:var(--mut);
-  text-align:center;
-  margin-bottom:24px;
-}
-
-.afd{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  margin-bottom:12px;
-}
-
-.alb{
-  font-size:12px;
-  color:var(--mut);
-  font-weight:600;
-}
-
-.ain{
-  padding:13px 14px;
-  border-radius:10px;
-  border:1.5px solid var(--brd);
-  font-size:15px;
-  background:var(--sur2);
-  color:var(--txt);
-  font-family:inherit;
-  width:100%;
-  direction:ltr;
-  text-align:right;
-}
-
-.ain:focus{
-  outline:none;
-  border-color:var(--p);
-}
-
-.abtn{
-  width:100%;
-  padding:15px;
-  border-radius:10px;
-  border:none;
-  background:var(--p);
-  color:#fff;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-  font-family:inherit;
-  margin-top:6px;
-}
-
-.abtn:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
-.alk{
-  text-align:center;
-  font-size:13px;
-  color:var(--p);
-  cursor:pointer;
-  margin-top:14px;
-  font-weight:600;
-}
-
-.aerr{
-  color:var(--r);
-  font-size:12px;
-  text-align:center;
-  min-height:20px;
-  padding:4px 0;
-  font-weight:500;
-}
+body{font-family:Arial;margin:0;background:#f4f4f4}
+.container{max-width:420px;margin:60px auto;padding:20px;background:#fff;border-radius:10px}
+input,button{width:100%;padding:10px;margin:8px 0}
+button{background:#111;color:#fff;border:none;cursor:pointer}
+.hidden{display:none}
+h2{text-align:center}
 </style>
-  <!-- AUTH LOGIN VIEW -->
-<div class="view" id="view-auth-login">
 
-  <div class="aw">
+<!-- Firebase (compat version for stability) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-    <div class="alo">علادین</div>
-    <div class="atg">کرانہ اسٹور مینجمنٹ سسٹم</div>
+</head>
+<body>
 
-    <!-- EMAIL -->
-    <div class="afd">
-      <span class="alb">ای میل</span>
-      <input class="ain"
-             id="le"
-             type="email"
-             placeholder="aap@email.com"
-             autocomplete="email">
-    </div>
-
-    <!-- PASSWORD -->
-    <div class="afd">
-      <span class="alb">پاسورڈ</span>
-      <input class="ain"
-             id="lp"
-             type="password"
-             placeholder="••••••••"
-             autocomplete="current-password">
-    </div>
-
-    <!-- ERROR -->
-    <div class="aerr" id="lerr"></div>
-
-    <!-- LOGIN BUTTON -->
-    <button class="abtn" id="lbtn" onclick="doLogin()">
-      لاگ ان کریں
-    </button>
-
-    <!-- REGISTER NAV -->
-    <div class="alk" onclick="navAuth('register')">
-      نیا اکاؤنٹ بنائیں ←
-    </div>
-
-  </div>
-
+<!-- LOGIN SCREEN -->
+<div class="container" id="loginBox">
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <button onclick="signup()">Sign Up</button>
+  <p id="msg"></p>
 </div>
-<!-- AUTH REGISTER VIEW -->
-<div class="view" id="view-auth-register">
 
-  <div class="aw">
+<!-- APP SCREEN -->
+<div class="container hidden" id="appBox">
+  <h2>Aladin App</h2>
 
-    <div class="alo" style="font-size:28px">
-      نیا اکاؤنٹ
-    </div>
+  <input type="text" id="custName" placeholder="Customer Name">
+  <input type="number" id="custCredit" placeholder="Credit">
+  <button onclick="addCustomer()">Add Customer</button>
 
-    <div class="atg">
-      Aladin پر رجسٹر کریں
-    </div>
+  <hr>
 
-    <!-- STORE NAME -->
-    <div class="afd">
-      <span class="alb">دکان کا نام</span>
-      <input class="ain"
-             id="rst"
-             type="text"
-             placeholder="احمد جنرل اسٹور">
-    </div>
+  <div id="list"></div>
 
-    <!-- OWNER NAME -->
-    <div class="afd">
-      <span class="alb">مالک کا نام</span>
-      <input class="ain"
-             id="row"
-             type="text"
-             placeholder="محمد احمد">
-    </div>
-
-    <!-- EMAIL -->
-    <div class="afd">
-      <span class="alb">ای میل</span>
-      <input class="ain"
-             id="rem"
-             type="email"
-             placeholder="aap@email.com">
-    </div>
-
-    <!-- PASSWORD -->
-    <div class="afd">
-      <span class="alb">پاسورڈ (کم از کم 6 حروف)</span>
-      <input class="ain"
-             id="rps"
-             type="password"
-             placeholder="••••••••">
-    </div>
-
-    <!-- ERROR -->
-    <div class="aerr" id="rerr"></div>
-
-    <!-- REGISTER BUTTON -->
-    <button class="abtn" id="rbtn" onclick="doRegister()">
-      اکاؤنٹ بنائیں
-    </button>
-
-    <!-- SWITCH TO LOGIN -->
-    <div class="alk" onclick="navAuth('login')">
-      پہلے سے اکاؤنٹ ہے؟ لاگ ان ←
-    </div>
-
-  </div>
-
+  <button onclick="logout()">Logout</button>
 </div>
-<!-- HOME VIEW -->
-<div class="view" id="view-home">
 
-  <!-- APP BAR -->
-  <div class="appbar">
-
-    <div class="abl">
-      <div class="abt">
-        علادین
-        <span class="sybdg on" id="sybdg">
-          <span class="syd"></span>
-          آن لائن
-        </span>
-      </div>
-
-      <div class="abs" id="storelbl">دکان</div>
-    </div>
-
-    <div class="aba">
-      <button class="ibtn" onclick="doLogout()" title="خروج">
-        <i class="ti ti-logout"></i>
-      </button>
-    </div>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- STATS GRID -->
-    <div class="sg">
-
-      <div class="sc">
-        <div class="sl">آج کا اُدھار</div>
-        <div class="sv r" id="hcr">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">آج کی ادائیگی</div>
-        <div class="sv g" id="hpa">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">کل باقی</div>
-        <div class="sv b" id="htb">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">کل گاہک</div>
-        <div class="sv" id="hcu">0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">آج کی فروخت</div>
-        <div class="sv w" id="hsa">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">انوینٹری</div>
-        <div class="sv pu" id="hiv">0</div>
-      </div>
-
-    </div>
-
-    <!-- QUICK ACTIONS -->
-    <div class="qg">
-
-      <button class="qb cr" onclick="openCE()">
-        <i class="ti ti-arrow-up-right"></i>
-        اُدھار دیں
-      </button>
-
-      <button class="qb pa" onclick="openPE()">
-        <i class="ti ti-arrow-down-left"></i>
-        ادائیگی لیں
-      </button>
-
-      <button class="qb iv" onclick="navTo('inventory')">
-        <i class="ti ti-package"></i>
-        انوینٹری
-      </button>
-
-      <button class="qb sa" onclick="navTo('sales')">
-        <i class="ti ti-shopping-cart"></i>
-        فروخت
-      </button>
-
-    </div>
-
-    <!-- RECENT TXNS -->
-    <div class="slbl">حالیہ لین دین</div>
-    <div class="card" id="rtxns"></div>
-
-  </div>
-
-</div>
-<!-- CUSTOMERS VIEW -->
-<div class="view" id="view-customers">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-    <div class="abl">
-      <div class="abt">گاہک</div>
-    </div>
-
-    <div class="aba">
-      <button class="ibtn" onclick="openAC()">
-        <i class="ti ti-plus"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- SEARCH -->
-    <div class="sr">
-      <i class="ti ti-search" style="color:var(--mut);font-size:18px"></i>
-
-      <input
-        id="csch"
-        placeholder="نام یا نمبر تلاش..."
-        oninput="filtC(this.value)">
-    </div>
-
-    <!-- CUSTOMER LIST -->
-    <div class="card" id="clist">
-
-      <!-- SAFE EMPTY STATE (IMPORTANT FIX) -->
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی گاہک موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- ADD BUTTON -->
-    <button class="fab" onclick="openAC()">
-      <i class="ti ti-plus"></i>
-      نیا گاہک
-    </button>
-
-  </div>
-
-</div>
-<!-- INVENTORY VIEW -->
-<div class="view" id="view-inventory">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-    <div class="abl">
-      <div class="abt">انوینٹری</div>
-    </div>
-
-    <div class="aba">
-      <button class="ibtn" onclick="openAI()">
-        <i class="ti ti-plus"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- SEARCH -->
-    <div class="sr">
-      <i class="ti ti-search" style="color:var(--mut);font-size:18px"></i>
-
-      <input
-        id="isch"
-        placeholder="آئٹم تلاش..."
-        oninput="filtI(this.value)">
-    </div>
-
-    <!-- FILTER CHIPS -->
-    <div class="chips" id="ichips"></div>
-
-    <!-- ITEM LIST -->
-    <div class="card" id="ilist">
-
-      <!-- SAFE EMPTY STATE -->
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی آئٹم موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- ADD ITEM -->
-    <button class="fab" onclick="openAI()">
-      <i class="ti ti-plus"></i>
-      نیا آئٹم
-    </button>
-
-  </div>
-
-</div>
-<!-- SALES VIEW -->
-<div class="view" id="view-sales">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-    <div class="abl">
-      <div class="abt">فروخت</div>
-    </div>
-
-    <div class="aba">
-      <button class="ibtn" onclick="openNS()">
-        <i class="ti ti-plus"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- FILTER CHIPS -->
-    <div class="chips" id="schips"></div>
-
-    <!-- STATS GRID -->
-    <div class="sg">
-
-      <div class="sc">
-        <div class="sl">آج کی فروخت</div>
-        <div class="sv w" id="std">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">ماہانہ فروخت</div>
-        <div class="sv b" id="smo">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">آج منافع</div>
-        <div class="sv g" id="spr">₨0</div>
-      </div>
-
-      <div class="sc">
-        <div class="sl">کل فروخت</div>
-        <div class="sv" id="sct">0</div>
-      </div>
-
-    </div>
-
-    <!-- LIST TITLE -->
-    <div class="slbl">فروخت کی فہرست</div>
-
-    <!-- SALES LIST -->
-    <div class="card" id="slist">
-
-      <!-- SAFE EMPTY STATE -->
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی فروخت موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- NEW SALE BUTTON -->
-    <button class="fab" onclick="openNS()">
-      <i class="ti ti-plus"></i>
-      نئی فروخت
-    </button>
-
-  </div>
-
-</div>
-<!-- REPORTS VIEW -->
-<div class="view" id="view-reports">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-    <div class="abl">
-      <div class="abt">رپورٹ</div>
-    </div>
-  </div>
-
-  <div class="vi">
-
-    <!-- TODAY SUMMARY -->
-    <div class="slbl">آج کا خلاصہ</div>
-
-    <div class="rc">
-
-      <div class="rr">
-        <span class="rk">اُدھار دیا</span>
-        <span class="rv r" id="rcr">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">ادائیگی ملی</span>
-        <span class="rv g" id="rpa">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">خالص نقد</span>
-        <span class="rv" id="rnt">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">آج فروخت</span>
-        <span class="rv w" id="rst2">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">آج منافع</span>
-        <span class="rv g" id="rpr">₨0</span>
-      </div>
-
-    </div>
-
-    <!-- TOTAL SUMMARY -->
-    <div class="slbl">مجموعی</div>
-
-    <div class="rc">
-
-      <div class="rr">
-        <span class="rk">کل گاہک</span>
-        <span class="rv" id="rtc">0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">کل باقی اُدھار</span>
-        <span class="rv r" id="rtb">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">ماہانہ فروخت</span>
-        <span class="rv b" id="rms">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">انوینٹری قیمت</span>
-        <span class="rv pu" id="riv">₨0</span>
-      </div>
-
-      <div class="rr">
-        <span class="rk">انوینٹری آئٹم</span>
-        <span class="rv" id="ric">0</span>
-      </div>
-
-    </div>
-
-    <!-- TOP DEBTORS -->
-    <div class="slbl">سب سے زیادہ باقی</div>
-    <div class="rc" id="tdbt">
-
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی ڈیٹا موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- LOW STOCK -->
-    <div class="slbl">کم اسٹاک</div>
-    <div class="rc" id="lstk">
-
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی آئٹم موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- WHATSAPP REPORT -->
-    <button class="fab sg2" onclick="shrRpt()" style="margin-top:8px">
-      <i class="ti ti-brand-whatsapp"></i>
-      WhatsApp رپورٹ
-    </button>
-
-  </div>
-
-</div>
-<!-- CREDIT ENTRY VIEW -->
-<div class="view" id="view-ce">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-
-    <div class="abl">
-      <div class="abt">اُدھار دیں</div>
-      <div class="abs" id="cesub">گاہک منتخب کریں</div>
-    </div>
-
-    <button class="bbtn" onclick="goBack()">واپس</button>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- SELECTED CUSTOMER BAR -->
-    <div class="ib wn" id="cebar" style="display:none"></div>
-
-    <!-- AMOUNT DISPLAY -->
-    <div class="aml">رقم (روپے)</div>
-
-    <div class="adp" id="ceamt">₨0</div>
-
-    <!-- NUMPAD -->
-    <div class="numpad" id="cenp">
-      <!-- fallback safety UI -->
-      <div class="nk" style="grid-column:span 3;opacity:.5">
-        نمبر پیڈ لوڈ ہو رہا ہے...
-      </div>
-    </div>
-
-    <!-- NOTE -->
-    <input id="cenote"
-           class="fi"
-           style="margin-bottom:10px"
-           placeholder="نوٹ — کیا سامان لیا؟">
-
-    <!-- CUSTOMER LIST -->
-    <div class="slbl">گاہک منتخب کریں</div>
-
-    <div class="card" id="cecl">
-
-      <!-- SAFE EMPTY STATE -->
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی گاہک موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- CONFIRM BUTTON -->
-    <button class="cbtn cc" id="cebtn" onclick="confCE()" disabled>
-      اُدھار درج کریں
-    </button>
-
-  </div>
-
-</div>
-<!-- PAYMENT ENTRY VIEW -->
-<div class="view" id="view-pe">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-
-    <div class="abl">
-      <div class="abt">ادائیگی لیں</div>
-      <div class="abs" id="pesub">گاہک منتخب کریں</div>
-    </div>
-
-    <button class="bbtn" onclick="goBack()">واپس</button>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- SELECTED CUSTOMER BAR -->
-    <div class="ib in2" id="pebar" style="display:none"></div>
-
-    <!-- AMOUNT -->
-    <div class="aml">رقم (روپے)</div>
-
-    <div class="adp" id="peamt">₨0</div>
-
-    <!-- NUMPAD -->
-    <div class="numpad" id="penp">
-      <!-- SAFE FALLBACK -->
-      <div class="nk" style="grid-column:span 3;opacity:.5">
-        نمبر پیڈ لوڈ ہو رہا ہے...
-      </div>
-    </div>
-
-    <!-- NOTE -->
-    <input id="penote"
-           class="fi"
-           style="margin-bottom:10px"
-           placeholder="نوٹ (اختیاری)">
-
-    <!-- CUSTOMER LIST -->
-    <div class="slbl">گاہک منتخب کریں</div>
-
-    <div class="card" id="pecl">
-
-      <!-- SAFE EMPTY STATE -->
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی گاہک موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- CONFIRM BUTTON -->
-    <button class="cbtn cp2" id="pebtn" onclick="confPE()" disabled>
-      ادائیگی درج کریں
-    </button>
-
-  </div>
-
-</div>
-<!-- PAYMENT ENTRY VIEW -->
-<div class="view" id="view-pe">
-
-  <!-- APP BAR -->
-  <div class="appbar">
-
-    <div class="abl">
-      <div class="abt">ادائیگی لیں</div>
-      <div class="abs" id="pesub">گاہک منتخب کریں</div>
-    </div>
-
-    <button class="bbtn" onclick="goBack()">واپس</button>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="vi">
-
-    <!-- SELECTED CUSTOMER BAR -->
-    <div class="ib in2" id="pebar" style="display:none"></div>
-
-    <!-- AMOUNT -->
-    <div class="aml">رقم (روپے)</div>
-
-    <div class="adp" id="peamt">₨0</div>
-
-    <!-- NUMPAD -->
-    <div class="numpad" id="penp">
-      <!-- SAFE FALLBACK -->
-      <div class="nk" style="grid-column:span 3;opacity:.5">
-        نمبر پیڈ لوڈ ہو رہا ہے...
-      </div>
-    </div>
-
-    <!-- NOTE -->
-    <input id="penote"
-           class="fi"
-           style="margin-bottom:10px"
-           placeholder="نوٹ (اختیاری)">
-
-    <!-- CUSTOMER LIST -->
-    <div class="slbl">گاہک منتخب کریں</div>
-
-    <div class="card" id="pecl">
-
-      <!-- SAFE EMPTY STATE -->
-      <div class="li" style="justify-content:center;opacity:.6">
-        کوئی گاہک موجود نہیں
-      </div>
-
-    </div>
-
-    <!-- CONFIRM BUTTON -->
-    <button class="cbtn cp2" id="pebtn" onclick="confPE()" disabled>
-      ادائیگی درج کریں
-    </button>
-
-  </div>
-
-</div>
 <script>
-'use strict';
-
-/* =========================
-   FIREBASE INIT (REQUIRED)
-   ========================= */
+/* ================= FIREBASE CONFIG ================= */
+// 🔴 PUT YOUR FIREBASE CONFIG HERE
 const firebaseConfig = {
-  // ⚠️ MUST BE YOUR REAL CONFIG
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -892,134 +61,105 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-/* =========================
-   APP STATE
-   ========================= */
-let customers = [];
-let items = [];
-let sales = [];
+/* ================= UI ELEMENTS ================= */
+const loginBox = document.getElementById("loginBox");
+const appBox = document.getElementById("appBox");
+const msg = document.getElementById("msg");
 
-let currentView = 'home';
+/* ================= AUTH ================= */
+function signup(){
+  const email = emailInput().value;
+  const pass = passInput().value;
 
-/* =========================
-   SAFE NAVIGATION
-   ========================= */
-function navTo(view){
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
-
-  document.querySelectorAll('.nb').forEach(n => n.classList.remove('active'));
-  const nav = document.getElementById('nav-' + view);
-  if(nav) nav.classList.add('active');
-
-  currentView = view;
+  auth.createUserWithEmailAndPassword(email, pass)
+  .then(() => showApp())
+  .catch(e => msg.innerText = e.message);
 }
 
-/* =========================
-   SAFE BACK NAV
-   ========================= */
-function goBack(){
-  navTo('home');
+function login(){
+  const email = emailInput().value;
+  const pass = passInput().value;
+
+  auth.signInWithEmailAndPassword(email, pass)
+  .then(() => showApp())
+  .catch(e => msg.innerText = e.message);
 }
 
-/* =========================
-   PLACEHOLDER SAFE FUNCTIONS
-   (PREVENT CRASHES)
-   ========================= */
-function saveC(){ console.warn("saveC missing logic"); }
-function saveI(){ console.warn("saveI missing logic"); }
-function saveS(){ console.warn("saveS missing logic"); }
-function delC(){ console.warn("delC missing logic"); }
-function delI(){ console.warn("delI missing logic"); }
-function confCE(){ console.warn("confCE missing logic"); }
-function confPE(){ console.warn("confPE missing logic"); }
-
-/* =========================
-   APP START
-   ========================= */
-window.onload = function(){
-  navTo('home');
-};
-/* ══════════════════════════════════════════════════════
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAD5MC56ADhJpMsQKhqHdvCXI1ZqkKqYmI",
-    authDomain: "aladin-6d6f4.firebaseapp.com",
-    projectId: "aladin-6d6f4",
-    storageBucket: "aladin-6d6f4.appspot.com",
-    messagingSenderId: "73021460735",
-    appId: "1:73021460735:web:a3a110282eb22aaca87cca",
-    measurementId: "G-0HD00NMCJS"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-
-  // Analytics (optional but safe)
-  const analytics = getAnalytics(app);
-
-  // Core services
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // Make available globally for your existing functions
-  window.firebaseApp = app;
-  window.auth = auth;
-  window.db = db;
-
-  console.log("Firebase initialized successfully");
-</script>
- const firebaseConfig = {
-  apiKey: "AIzaSyAD5MC56ADhJpMsQKhqHdvCXI1ZqkKqYmI",
-  authDomain: "aladin-6d6f4.firebaseapp.com",
-  projectId: "aladin-6d6f4",
-  storageBucket: "aladin-6d6f4.appspot.com",
-  messagingSenderId: "73021460735",
-  appId: "1:73021460735:web:a3a110282eb22aaca87cca",
-  measurementId: "G-0HD00NMCJS"
-};
-
-// ONLY ONE STYLE (IMPORTANT)
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// safe persistence (optional but stable)
-db.enablePersistence({ synchronizeTabs: true })
-  .catch(err => {
-    console.warn("Firestore persistence disabled:", err.code);
+function logout(){
+  auth.signOut().then(() => {
+    loginBox.classList.remove("hidden");
+    appBox.classList.add("hidden");
   });
-<script>
-'use strict';
+}
 
-/* ═════════ Firebase Config ═════════ */
-const firebaseConfig = {
-  apiKey: "AIzaSyAD5MC56ADhJpMsQKhqHdvCXI1ZqkKqYmI",
-  authDomain: "aladin-6d6f4.firebaseapp.com",
-  projectId: "aladin-6d6f4",
-  storageBucket: "aladin-6d6f4.appspot.com",
-  messagingSenderId: "73021460735",
-  appId: "1:73021460735:web:a3a110282eb22aaca87cca",
-  measurementId: "G-0HD00NMCJS"
-};
-
-/* ═════════ Initialize Firebase ═════════ */
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.firestore();
-const FV = firebase.firestore.FieldValue;
-
-/* Enable offline persistence */
-db.enablePersistence({ synchronizeTabs: true })
-.catch(e => {
-  if (e.code !== 'failed-precondition' && e.code !== 'unimplemented') {
-    console.warn('Persist:', e);
+/* ================= AUTH STATE FIX (IMPORTANT) ================= */
+auth.onAuthStateChanged(user => {
+  if(user){
+    showApp();
+  } else {
+    loginBox.classList.remove("hidden");
+    appBox.classList.add("hidden");
   }
 });
+
+/* ================= APP LOGIC ================= */
+function showApp(){
+  loginBox.classList.add("hidden");
+  appBox.classList.remove("hidden");
+  loadCustomers();
+}
+
+/* ================= CUSTOMER STORAGE (FIXED) ================= */
+function addCustomer(){
+  const name = document.getElementById("custName").value.trim();
+  const credit = document.getElementById("custCredit").value;
+
+  if(!name) return alert("Name required");
+
+  const customer = { name, credit };
+
+  // Save to Firestore
+  db.collection("customers").add(customer)
+  .then(() => {
+    document.getElementById("custName").value = "";
+    document.getElementById("custCredit").value = "";
+    loadCustomers();
+  })
+  .catch(() => {
+    // fallback localStorage
+    let data = JSON.parse(localStorage.getItem("customers") || "[]");
+    data.push(customer);
+    localStorage.setItem("customers", JSON.stringify(data));
+    loadCustomers();
+  });
+}
+
+function loadCustomers(){
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  // Try Firestore first
+  db.collection("customers").get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      const c = doc.data();
+      list.innerHTML += `<div>${c.name} - ${c.credit}</div>`;
+    });
+  })
+  .catch(() => {
+    // fallback localStorage
+    let data = JSON.parse(localStorage.getItem("customers") || "[]");
+    data.forEach(c => {
+      list.innerHTML += `<div>${c.name} - ${c.credit}</div>`;
+    });
+  });
+}
+
+/* ================= HELPERS ================= */
+function emailInput(){ return document.getElementById("email"); }
+function passInput(){ return document.getElementById("password"); }
+
+</script>
+
+</body>
+</html>
