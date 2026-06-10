@@ -718,10 +718,33 @@ function rpV(){if(S.cv!=='profile'||!S.profId)return;const c=S.custs.find(x=>x.i
 function openCEFor(id){openCE();setTimeout(()=>selC('ce',id),80);}
 function openPEFor(id){openPE();setTimeout(()=>selC('pe',id),80);}
 function sendWA(id){
-  const c=S.custs.find(x=>x.id===id);if(!c){showER('گاہک نہیں ملا');return;}
-  const m=`السلام علیکم ${c.name}،\nآپ کے ذمے ${S.store} کا ${fmt(c.balance)} باقی ہے۔\nبرائے مہربانی جلد ادائیگی فرمائیں۔\nشکریہ 🙏\n\n_Aladin App_`;
-  const ph=(c.phone||'').replace(/^0/,'92').replace(/\D/g,'');
-  try{window.open(`https://wa.me/${ph}?text=${encodeURIComponent(m)}`,'_blank');}catch{showER('WhatsApp نہیں کھل سکا');}
+  const c = S.custs.find(x => x.id === id);
+  if (!c) { showER('گاہک نہیں ملا'); return; }
+
+  const m = `السلام علیکم ${c.name}،
+آپ کے ذمے ${S.store} کا ${fmt(c.balance)} باقی ہے۔
+برائے مہربانی جلد ادائیگی فرمائیں۔
+شکریہ 🙏
+
+_Aladin App_`;
+
+  // clean phone properly
+  let ph = (c.phone || '').replace(/\D/g, '');
+
+  // convert 0XXXXXXXXXX → 92XXXXXXXXXX
+  if (ph.startsWith('0')) {
+    ph = '92' + ph.substring(1);
+  }
+
+  // safety check
+  if (!ph) {
+    showER('فون نمبر موجود نہیں');
+    return;
+  }
+
+  const url = `https://wa.me/${ph}?text=${encodeURIComponent(m)}`;
+
+  window.open(url, '_blank');
 }
 
 /* ══ Customer CRUD ══ */
